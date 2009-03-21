@@ -33,7 +33,7 @@ help :
 	@echo "  help:              Print this help message."
 
 # regenerate the Makefile
-Makefile: config/makefiles/root.in
+Makefile: build/templates/Makefile.in
 	$(PERL) Configure.pl
 
 # Compilation:
