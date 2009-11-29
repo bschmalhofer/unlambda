@@ -1,6 +1,10 @@
-# $Id$
-
 See 'perldoc unl.pir' for documentation.
 
-    $perl Configure.pl
-    $make test
+Unlambda is a functional programming language.
+See http://en.wikipedia.org/wiki/Unlambda for details.
+
+    $ parrot Configure.pir
+    $ make
+    $ make test
+
+unlambda is hosted at http://github.com/bschmalhofer/unlambda.
