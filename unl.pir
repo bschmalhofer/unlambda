@@ -22,6 +22,7 @@ L<http://en.wikipedia.org/wiki/Unlambda>
 .sub _main :main
     .param pmc argv
 
+    load_bytecode 'dumper.pbc'
     .local int argc
     .local pmc in, cchar
     argc = argv
@@ -450,8 +451,6 @@ L<http://en.wikipedia.org/wiki/Unlambda>
         .const 'Sub' v = "v"
         .tailcall x(v)
 .end
-
-.include "library/dumper.pir"
 
 # Local Variables:
 #   mode: pir

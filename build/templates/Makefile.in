@@ -4,12 +4,14 @@
 # Makefile for languages/unlambda
 
 # configuration settings
-BUILD_DIR     = @build_dir@
+VERSION       := @versiondir@
+BIN_DIR       := @bindir@
+LIB_DIR       := @libdir@$(VERSION)
 
 # Set up commands
 PERL          = @perl@
 RM_F          = @rm_f@
-PARROT        = $(BUILD_DIR)/parrot@exe@
+PARROT        := $(BIN_DIR)/parrot@exe@
 #CONDITIONED_LINE(darwin):
 #CONDITIONED_LINE(darwin):# MACOSX_DEPLOYMENT_TARGET must be defined for OS X compilation/linking
 #CONDITIONED_LINE(darwin):export MACOSX_DEPLOYMENT_TARGET := @osx_version@
@@ -51,4 +53,4 @@ realclean: clean
 
 # testing
 test: build
-	$(PERL) t/harness
+	prove -I $(LIB_DIR)/tools/lib t/*.t

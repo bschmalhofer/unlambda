@@ -23,21 +23,13 @@ Bernhard Schmalhofer - C<Bernhard.Schmalhofer@gmx.de>
 
 use strict;
 use warnings;
-use FindBin;
-use lib "$FindBin::Bin/../../../lib";
 
 use Test::More        tests => 4;
 use Parrot::Config    qw(%PConfig);
 use File::Spec        ();
 
-my $parrot    = File::Spec->catfile( $FindBin::Bin,
-                                     File::Spec->updir(),
-                                     File::Spec->updir(),
-                                     File::Spec->updir(),
-                                     $PConfig{test_prog} );
-my $unlamba   = $parrot . q{ } . File::Spec->catfile( $FindBin::Bin,
-                                                      File::Spec->updir(), 
-                                                      'unl.pbc' );
+my $parrot    = 'parrot';
+my $unlamba   = "$parrot unl.pbc";
 my @test_cases = (
     [ 'newline.unl'  => "\n" ],
     [ 'h.unl'        => "h\n" ],
@@ -47,9 +39,6 @@ my @test_cases = (
 
 foreach (@test_cases) {
     my ($code_fn, $out) = @{$_};
-    my $prog = File::Spec->catfile( $FindBin::Bin,
-                                    File::Spec->updir(),
-                                    'examples',
-                                    $code_fn ); 
+    my $prog = File::Spec->catfile( 'examples', $code_fn ); 
     is( `$unlamba $prog`, $out, "example $code_fn" );
 }
