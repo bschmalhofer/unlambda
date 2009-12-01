@@ -2,9 +2,17 @@ See 'perldoc unl.pir' for documentation.
 
 Unlambda is a functional programming language.
 See http://en.wikipedia.org/wiki/Unlambda for details.
+Unlambda is hosted at http://github.com/bschmalhofer/unlambda.
 
-    $ parrot Configure.pir
-    $ make
-    $ make test
+Build and test:
+    $ parrot setup.pir clean
+    $ parrot setup.pir
+    $ parrot setup.pir test
 
-unlambda is hosted at http://github.com/bschmalhofer/unlambda.
+Show help:
+ $ parrot setup.pir help
+
+Generate a file for Plumage:
+ $ mkdir plumage
+ $ parrot setup.pir plumage > plumage/unlambda.json
+
