@@ -43,12 +43,6 @@ No Configure step, no Makefile generated.
     $P2['parrot-unl'] = 'unl.pbc'
     #$P0['installable_pbc'] = $P2
 
-    # test
-    $S0 = get_libdir()
-    $S0 = 'perl -I' . $S0
-    $S0 .= '/tools/lib'
-    $P0['prove_exec'] = $S0
-
     .tailcall setup(args :flat, $P0 :flat :named)
 .end
 

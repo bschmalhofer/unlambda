@@ -25,7 +25,6 @@ use strict;
 use warnings;
 
 use Test::More        tests => 4;
-use Parrot::Config    qw(%PConfig);
 use File::Spec        ();
 
 my $parrot    = 'parrot';
