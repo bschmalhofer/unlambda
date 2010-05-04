@@ -1,5 +1,5 @@
 #!/usr/bin/env parrot
-# Copyright (C) 2009, Parrot Foundation.
+# Copyright (C) 2009-2010, Parrot Foundation.
 
 =head1 NAME
 
@@ -41,7 +41,10 @@ No Configure step, no Makefile generated.
 
     $P2 = new 'Hash'
     $P2['parrot-unl'] = 'unl.pbc'
-    #$P0['installable_pbc'] = $P2
+    $P0['installable_pbc'] = $P2
+
+    # test
+    $P0['test_exec'] = 'perl'
 
     .tailcall setup(args :flat, $P0 :flat :named)
 .end
