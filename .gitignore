@@ -1,1 +1,7 @@
-unl.pbc
+*.pbc
+*.c
+*.o
+*.obj
+*.exe
+installable_unl
+
