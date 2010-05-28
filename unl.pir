@@ -19,6 +19,8 @@ L<http://en.wikipedia.org/wiki/Unlambda>
 
 =cut
 
+.loadlib 'io_ops'
+
 .sub _main :main
     .param pmc argv
 
