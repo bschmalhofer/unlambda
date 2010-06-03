@@ -20,6 +20,7 @@ L<http://en.wikipedia.org/wiki/Unlambda>
 =cut
 
 .loadlib 'io_ops'
+.include 'stdio.pasm'
 
 .sub _main :main
     .param pmc argv
@@ -29,11 +30,13 @@ L<http://en.wikipedia.org/wiki/Unlambda>
     .local pmc in, cchar
     argc = argv
     if argc > 1 goto open_file
-    in = getstdin
+    $P0 = getinterp
+    in = $P0.'stdhandle'(.PIO_STDIN_FILENO)
     goto run
   open_file:
     $S0 = argv[1]
-    in = open $S0, 'r'
+    in = new 'FileHandle'
+    in.'open'($S0, 'r')
     $I0 = defined in
     if $I0 goto run
     printerr "can't open '"
@@ -69,7 +72,7 @@ L<http://en.wikipedia.org/wiki/Unlambda>
     .const 'Sub' rd  = "rd"
     .const 'Sub' pc  = "pc"
   loop:
-    ch = read io, 1
+    ch = io.'read'(1)
     unless ch == '`' goto not_bq
         op = parse(io)
         arg = parse(io)
@@ -80,7 +83,7 @@ L<http://en.wikipedia.org/wiki/Unlambda>
         .return (pair)
   not_bq:
     unless ch == '.' goto not_dot
-        $S0 = read io, 1
+        $S0 = io.'read'(1)
         arg = new 'String'
         arg = $S0
         .tailcall clos_pr(arg)
@@ -92,7 +95,7 @@ L<http://en.wikipedia.org/wiki/Unlambda>
         .return (pc)
   not_pc:
     unless ch == '?' goto not_rc
-        $S0 = read io, 1
+        $S0 = io.'read'(1)
         arg = new 'String'
         arg = $S0
         .tailcall clos_rc(arg)
@@ -125,7 +128,7 @@ L<http://en.wikipedia.org/wiki/Unlambda>
   not_e:
     unless ch == '#' goto not_comment
   swallow:
-        ch = read io, 1
+        ch = io.'read'(1)
         if ch != "\n" goto swallow
         goto loop
   not_comment:
@@ -394,10 +397,11 @@ L<http://en.wikipedia.org/wiki/Unlambda>
 
     .local pmc cchar, i, v, io
     .local string ch
-    io = getstdin
+    $P0 = getinterp
+    io = $P0.'stdhandle'(.PIO_STDIN_FILENO)
     ch = ''
     unless io goto void
-    ch = read io, 1
+    ch = io.'read'(1)
     cchar = get_global "cchar"
     cchar = ch
     if ch == '' goto void
