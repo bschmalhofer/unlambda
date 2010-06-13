@@ -19,9 +19,6 @@ L<http://en.wikipedia.org/wiki/Unlambda>
 
 =cut
 
-.loadlib 'io_ops'
-.include 'stdio.pasm'
-
 .sub _main :main
     .param pmc argv
 
@@ -30,8 +27,7 @@ L<http://en.wikipedia.org/wiki/Unlambda>
     .local pmc in, cchar
     argc = argv
     if argc > 1 goto open_file
-    $P0 = getinterp
-    in = $P0.'stdhandle'(.PIO_STDIN_FILENO)
+    in = getstdin
     goto run
   open_file:
     $S0 = argv[1]
@@ -39,9 +35,11 @@ L<http://en.wikipedia.org/wiki/Unlambda>
     in.'open'($S0, 'r')
     $I0 = defined in
     if $I0 goto run
-    printerr "can't open '"
-    printerr $S0
-    printerr "' for reading."
+    .local pmc stderr
+    stderr = getstderr
+    print stderr, "can't open '"
+    print stderr, $S0
+    print stderr, "' for reading."
     exit 1
   run:
     .local pmc prog
@@ -136,9 +134,11 @@ L<http://en.wikipedia.org/wiki/Unlambda>
     if ch == "\t" goto loop
     if ch == "\n" goto loop
     if ch == "\r" goto loop
-    printerr "unrecogniced char in program '"
-    printerr ch
-    printerr "'\n"
+    .local pmc stderr
+    stderr = getstderr
+    print stderr, "unrecogniced char in program '"
+    print stderr, ch
+    print stderr, "'\n"
     exit 1
 .end
 
@@ -198,7 +198,9 @@ L<http://en.wikipedia.org/wiki/Unlambda>
   no_ar:
     .return (exp)
   no_pair:
-    printerr "no pair\n"
+    .local pmc stderr
+    stderr = getstderr
+    print stderr, "no pair\n"
     exit 1
 .end
 
@@ -353,13 +355,17 @@ L<http://en.wikipedia.org/wiki/Unlambda>
     .local pmc cc
     cc = find_lex 'cc'
     cc(x)
-    printerr "not reached\n"
+    .local pmc stderr
+    stderr = getstderr
+    print stderr, "not reached\n"
     exit 1
 .end
 
 # d delay
 .sub d
-    printerr "not reached\n"
+    .local pmc stderr
+    stderr = getstderr
+    print stderr, "not reached\n"
     exit 1
 .end
 
@@ -397,8 +403,7 @@ L<http://en.wikipedia.org/wiki/Unlambda>
 
     .local pmc cchar, i, v, io
     .local string ch
-    $P0 = getinterp
-    io = $P0.'stdhandle'(.PIO_STDIN_FILENO)
+    io = getstdin
     ch = ''
     unless io goto void
     ch = io.'read'(1)
